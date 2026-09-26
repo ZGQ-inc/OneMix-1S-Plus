@@ -173,12 +173,16 @@ bash scripts/onemix-hardware-diagnose.sh
 
 ```text
 OneMix-1S-Plus/
-├── .github/                              # GitHub Actions CI 与 Issue 表单
-│   ├── ISSUE_TEMPLATE/                   # 规范结构化 Issue 表单 (YAML)
+├── .gitattributes                        # Git 行尾 (LF) 与二进制属性规范
+├── .github/                              # GitHub Actions CI 与 Issue/PR 模板
+│   ├── ISSUE_TEMPLATE/                   # 规范结构化 Issue 表单 (YAML Forms)
 │   │   ├── config.yml
 │   │   ├── bug_report.yml
 │   │   └── feature_request.yml
-│   ├── PULL_REQUEST_TEMPLATE.md          # PR 提交模板
+│   ├── PULL_REQUEST_TEMPLATE/            # 规范化多场景 PR 模板体系
+│   │   ├── pull_request_template.md      # 默认通用 PR 模板
+│   │   ├── bug_fix.md                    # 缺陷修复专项模板
+│   │   └── feature.md                    # 新特性/硬件调优专项模板
 │   └── workflows/
 │       └── shellcheck.yml                # CI ShellCheck 检查工作流
 ├── docs/                                 # 深度技术文档与逆向原理 (中英双语)
@@ -219,6 +223,29 @@ OneMix-1S-Plus/
 ├── LICENSE                               # MIT 开源许可证
 └── README.md                             # 中文完整指南
 ```
+
+---
+
+## 🔗 参考项目与致谢 (References & Acknowledgements)
+
+本项目在开发、逆向与硬件调优过程中，参考并吸纳了开源社区与 UMPC 领域先驱者的卓越成果，在此表达诚挚感谢：
+
+* **GNU GRUB 2D Framebuffer 旋转引擎**：
+  * **Kyle Bader**：提供了经过实战检验的 GRUB 2D Framebuffer 显存旋转补丁，彻底突破了小屏 UMPC 引导阶段物理竖屏的限制。
+  * [GNU GRUB 官方项目](https://www.gnu.org/software/grub/)
+* **重力感应器与姿态校准**：
+  * [systemd / udev 硬件数据库 (hwdb)](https://github.com/systemd/systemd)：`ACCEL_MOUNT_MATRIX` 坐标系规范与定义。
+  * [iio-sensor-proxy (Freedesktop)](https://gitlab.freedesktop.org/hadess/iio-sensor-proxy)：Linux 工业 I/O 传感器向 D-Bus / 桌面环境的姿态事件桥接服务。
+* **指纹识别与驱动逆向**：
+  * [libfprint / fprintd (Freedesktop)](https://gitlab.freedesktop.org/libfprint/libfprint)：现代 Linux 统一指纹识别框架与 TOD 接口规范。
+  * [libgusb](https://github.com/hughsie/libgusb)：GLib 的异步 GObject USB 包装库。
+  * **社区 FT9201 逆向工程贡献者**：为 FocalTech 2808 系列传感器在 Linux 下的逆向适配与协议解析奠定了宝贵基础。
+* **处理器能耗与性能调优**：
+  * [georgewhewell/undervolt](https://github.com/georgewhewell/undervolt)：Linux 下 Intel CPU RAPL 功耗墙与电压调节参考。
+  * [Linux Kernel DRM KMS Documentation](https://www.kernel.org/doc/html/latest/gpu/drm-kms.html)：内核显示驱动屏幕旋转参数规范 (`video=...:panel_orientation=...`)。
+* **官方资源与固件**：
+  * [壹号本官网 (One-Netbook)](https://www.one-netbook.com/) & [官方下载服务](https://download.one-netbook.com/)：提供官方二代完整驱动包。
+  * **中颖电子 (Sino Wealth) & 海栎创 (Hailuck)**：SH68F83 8051 架构 USB 微控制器规范与固件升级工具。
 
 ---
 

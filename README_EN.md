@@ -64,17 +64,17 @@ Because the OneMix 1S+ motherboard is essentially a 2nd-gen platform:
 ### 1. Boot & Screen Rotation (Including Hardware Rotated GRUB)
 
 The LCD screen is physically a portrait panel (`eDP-1`). This toolkit provides a complete end-to-end landscape experience:
-* **Rotated GRUB Bootloader**: Overcomes GNU GRUB's limitation with portrait UEFI GOP panels by applying the Kyle Bader 2D Framebuffer rotation patch. We provide a self-contained, pre-compiled standalone EFI binary (`packages/bootloader/grubx64_rotated.efi`) with 295 built-in modules. Dual-booting Windows and Linux is rendered cleanly in 1920×1200 landscape without touching stock Ubuntu or Windows bootloaders. 
+* **Rotated GRUB Bootloader**: Overcomes GNU GRUB's limitation with portrait UEFI GOP panels by applying the Kyle Bader 2D Framebuffer rotation patch. We provide a self-contained, pre-compiled standalone EFI binary (`packages/bootloader/grubx64_rotated.efi`) with 295 built-in modules. Dual-booting Windows and Linux is rendered cleanly in 1920×1200 landscape without touching stock Ubuntu or Windows bootloaders.
 * **Plymouth & Console**: Injects `video=eDP-1:panel_orientation=right_side_up fbcon=rotate:1`.
 * **SDDM Display Manager**: Synchronizes user space KDE Plasma 6 Wayland configuration (`kwinoutputconfig.json`) and X11 scripts.
 
 > [!IMPORTANT]
-> **【MANDATORY PREREQUISITE】**  
+> **【MANDATORY PREREQUISITE】**
 > Before applying the script to persist the screen rotation, you MUST configure the orientation once in the desktop GUI:
 > 1. Open **System Settings -> Display and Monitor**;
 > 2. Under **Orientation**, select the 4th option: **Counterclockwise 90° (逆时针转 90°)**;
 > 3. Click **Apply**, and verify the screen displays normally in landscape mode.
-> 
+>
 > *Reason: Doing this causes KDE Plasma to generate the valid display descriptor (`~/.config/kwinoutputconfig.json`). Our script will then copy and sync this file to SDDM and inject the correct kernel parameters.*
 
 #### Apply Fix:
@@ -165,12 +165,16 @@ bash scripts/onemix-hardware-diagnose.sh
 
 ```text
 OneMix-1S-Plus/
-├── .github/                              # GitHub Actions CI & Issue Forms
+├── .gitattributes                        # Git line-ending (LF) & binary attributes
+├── .github/                              # GitHub Actions CI & Issue/PR Forms
 │   ├── ISSUE_TEMPLATE/                   # Modern structured issue forms (YAML)
 │   │   ├── config.yml
 │   │   ├── bug_report.yml
 │   │   └── feature_request.yml
-│   ├── PULL_REQUEST_TEMPLATE.md          # PR submission template
+│   ├── PULL_REQUEST_TEMPLATE/            # Standardized multi-scenario PR templates
+│   │   ├── pull_request_template.md      # Default comprehensive PR template
+│   │   ├── bug_fix.md                    # Bug fix specialized template
+│   │   └── feature.md                    # Feature / tuning specialized template
 │   └── workflows/
 │       └── shellcheck.yml                # ShellCheck syntax workflow
 ├── docs/                                 # Technical reverse-engineering docs (Bilingual)
@@ -212,6 +216,29 @@ OneMix-1S-Plus/
 ├── README.md                             # Chinese Documentation
 └── README_EN.md                          # English Documentation
 ```
+
+---
+
+## 🔗 References & Acknowledgements
+
+During the development, reverse-engineering, and hardware optimization of this project, we drew valuable inspiration and technical foundations from the open-source community and UMPC pioneers:
+
+* **GNU GRUB 2D Framebuffer Rotation Engine**:
+  * **Kyle Bader**: For developing the robust 2D framebuffer rotation patch that makes landscape boot menus possible on portrait-native UMPC panels.
+  * [GNU GRUB Official Project](https://www.gnu.org/software/grub/)
+* **Accelerometer & IIO Sensor Calibration**:
+  * [systemd / udev Hardware Database (hwdb)](https://github.com/systemd/systemd): Specification and coordinate mapping standards for `ACCEL_MOUNT_MATRIX`.
+  * [iio-sensor-proxy (Freedesktop)](https://gitlab.freedesktop.org/hadess/iio-sensor-proxy): D-Bus proxy bridging Linux Industrial I/O sensor events to KDE Plasma and GNOME desktop environments.
+* **Fingerprint Sensor & Driver Reverse-Engineering**:
+  * [libfprint / fprintd (Freedesktop)](https://gitlab.freedesktop.org/libfprint/libfprint): Modern Linux biometric authentication framework and TOD interface specifications.
+  * [libgusb](https://github.com/hughsie/libgusb): GLib async GObject USB wrapper library.
+  * **Community FT9201 Reverse-Engineering Contributors**: For their pioneering protocol analysis and driver work on FocalTech 2808 devices under Linux.
+* **Power Management & Thermal Tuning**:
+  * [georgewhewell/undervolt](https://github.com/georgewhewell/undervolt): Reference for Intel CPU RAPL package power clamping and voltage control under Linux.
+  * [Linux Kernel DRM KMS Documentation](https://www.kernel.org/doc/html/latest/gpu/drm-kms.html): Display panel orientation specifications (`video=...:panel_orientation=...`).
+* **Vendor Resources & Firmware**:
+  * [One-Netbook Official](https://www.one-netbook.com/) & [Download Server](https://download.one-netbook.com/): Official 2nd-generation driver packages.
+  * **Sino Wealth & Hailuck**: SH68F83 8051-core USB Flash Microcontroller specifications and firmware updating tool.
 
 ---
 
