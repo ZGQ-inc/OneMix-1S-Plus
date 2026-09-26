@@ -1,0 +1,56 @@
+name: 功能建议 (Feature Request)
+description: 为 OneMix 1S+ 专属优化工具箱提出新功能、新驱动适配或改进建议
+title: "[FEAT]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢为 OneMix 1S+ 提出宝贵建议！我们欢迎针对硬件调优、更多 Linux 发行版适配或工具易用性的建议。
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 建议类别 (Category)
+      options:
+        - "新硬件或新驱动支持 (Hardware & Drivers)"
+        - "自动化脚本与工具箱增强 (Scripts & CLI Tool)"
+        - "新 Linux 发行版适配 (New Distro Support)"
+        - "功耗与性能调优 (Power & Performance)"
+        - "文档与使用指南改进 (Documentation)"
+        - "其他 (Other)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 需求背景 / 遇到的问题 (Problem Context)
+      description: 你希望改善什么痛点或使用场景？
+      placeholder: 在日常使用中，发现...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 建议的解决方案 (Proposed Solution)
+      description: 请详细描述你设想的功能表现或技术实现方案。
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考虑过的替代方案 (Alternatives Considered)
+      description: 是否有现存的临时解决方案或试用过的第三方工具？
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 确认事项 (Checklist)
+      options:
+        - label: 我已搜索现有的 Issues 与 Discussions，确认未有重复的建议提案。
+          required: true

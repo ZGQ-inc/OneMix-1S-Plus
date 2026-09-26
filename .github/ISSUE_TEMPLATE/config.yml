@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 社区讨论区 (Discussions)
+    url: https://github.com/ZGQ-inc/OneMix-1S-Plus/discussions
+    about: 请在此交流日常使用心得、提问或讨论
+  - name: 📖 硬件规格与深度文档 (Documentation)
+    url: https://github.com/ZGQ-inc/OneMix-1S-Plus/tree/master/docs
+    about: 查看 1S+ 硬件架构、传感器与屏幕旋转深度指南

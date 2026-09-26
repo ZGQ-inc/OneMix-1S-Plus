@@ -1,0 +1,93 @@
+name: 故障报告 (Bug Report)
+description: 提交 OneMix 1S+ 驱动、旋转引导、固件或脚本中发现的问题
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提交 Issue！提交前请确认您已阅读相关文档，并建议在终端运行过 `bash scripts/onemix-hardware-diagnose.sh`。
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: 涉及模块 (Component)
+      description: 请选择出现问题的模块
+      options:
+        - "屏幕与 GRUB 旋转 (Screen & GRUB Rotation)"
+        - "键盘与 OFN 光学触控板 (Keyboard & OFN Firmware)"
+        - "指纹传感器与驱动 (FocalTech FT9536W)"
+        - "重力感应器与自动转屏 (Bosch BMA2x)"
+        - "处理器功耗与温控 (Intel m3-8100Y Power/Thermal)"
+        - "Windows 官方二代驱动 (Windows 10/11 Drivers)"
+        - "硬件诊断工具与脚本 (Diagnostic & Scripts)"
+        - "其他 (Other)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 操作系统与版本 (Operating System)
+      description: 请选择你当前运行的操作系统
+      options:
+        - "Kubuntu 26.04 LTS"
+        - "Ubuntu 24.04 LTS"
+        - "Ubuntu 22.04 LTS"
+        - "Windows 11 / LTSC"
+        - "Windows 10 / LTSC"
+        - "其他 Linux 发行版 (Other Linux)"
+    validations:
+      required: true
+
+  - type: input
+    id: env_info
+    attributes:
+      label: 桌面环境与内核版本 (Desktop Environment & Kernel)
+      description: 例如 KDE Plasma 6.1 (Wayland) / Linux 6.11.0
+      placeholder: KDE Plasma 6.1.5 (Wayland), 内核 6.11.0-8-generic
+    validations:
+      required: false
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 问题现象描述 (Bug Description)
+      description: 请清晰描述遇到了什么问题，以及期望的正常表现。
+      placeholder: 执行脚本后，出现了...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤 (Steps to Reproduce)
+      description: 请列出复现此问题的完整操作步骤。
+      placeholder: |
+        1. 运行 `sudo bash scripts/...`
+        2. 重启设备
+        3. 发现...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志与终端输出 (Logs & Diagnostic Output)
+      description: 请在此粘贴 `scripts/onemix-hardware-diagnose.sh` 输出或终端报错、`dmesg` 诊断信息。
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 前提与排查确认 (Pre-submission Checklist)
+      description: 请勾选已完成的确认事项
+      options:
+        - label: 我已查阅过仓库文档与已有关闭的 Issues，未找到相同问题的解决方案。
+          required: true
+        - label: 若涉及屏幕旋转问题，我已确认在 KDE 系统设置中手动选择了第 4 项【逆时针转 90°】并应用。
+          required: false
+        - label: 若涉及键盘与 OFN 触控，我未刷写过官方二代键盘固件（仅使用仓库提供的完美固件）。
+          required: false
