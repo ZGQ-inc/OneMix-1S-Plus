@@ -224,7 +224,7 @@ OneMix-1S-Plus/
 During the development, reverse-engineering, and hardware optimization of this project, we drew valuable inspiration and technical foundations from the open-source community and UMPC pioneers:
 
 * **GNU GRUB 2D Framebuffer Rotation Engine**:
-  * **Kyle Bader**: For developing the robust 2D framebuffer rotation patch that makes landscape boot menus possible on portrait-native UMPC panels.
+  * [Kyle Bader](https://github.com/kylebader) ([Rotating display output from GRUB](https://hackaday.io/project/186596-rotating-display-output-from-grub)): For developing the robust 2D framebuffer rotation patch that makes landscape boot menus possible on portrait-native UMPC panels.
   * [GNU GRUB Official Project](https://www.gnu.org/software/grub/)
 * **Accelerometer & IIO Sensor Calibration**:
   * [systemd / udev Hardware Database (hwdb)](https://github.com/systemd/systemd): Specification and coordinate mapping standards for `ACCEL_MOUNT_MATRIX`.
@@ -232,13 +232,13 @@ During the development, reverse-engineering, and hardware optimization of this p
 * **Fingerprint Sensor & Driver Reverse-Engineering**:
   * [libfprint / fprintd (Freedesktop)](https://gitlab.freedesktop.org/libfprint/libfprint): Modern Linux biometric authentication framework and TOD interface specifications.
   * [libgusb](https://github.com/hughsie/libgusb): GLib async GObject USB wrapper library.
-  * **Community FT9201 Reverse-Engineering Contributors**: For their pioneering protocol analysis and driver work on FocalTech 2808 devices under Linux.
+  * [Community FT9201 Reverse-Engineering Contributors (ryenyuku/libfprint-ft9201)](https://github.com/ryenyuku/libfprint-ft9201): For their pioneering protocol analysis and driver work on FocalTech 2808 devices under Linux.
 * **Power Management & Thermal Tuning**:
   * [georgewhewell/undervolt](https://github.com/georgewhewell/undervolt): Reference for Intel CPU RAPL package power clamping and voltage control under Linux.
   * [Linux Kernel DRM KMS Documentation](https://www.kernel.org/doc/html/latest/gpu/drm-kms.html): Display panel orientation specifications (`video=...:panel_orientation=...`).
 * **Vendor Resources & Firmware**:
   * [One-Netbook Official](https://www.one-netbook.com/) & [Download Server](https://download.one-netbook.com/): Official 2nd-generation driver packages.
-  * **Sino Wealth & Hailuck**: SH68F83 8051-core USB Flash Microcontroller specifications and firmware updating tool.
+  * [Sino Wealth](https://www.sinowealth.com/) & [Hailuck](http://www.hailuck.com/): SH68F83 8051-core USB Flash Microcontroller specifications and firmware updating tool.
 
 ---
 

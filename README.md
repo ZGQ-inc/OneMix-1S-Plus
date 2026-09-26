@@ -231,7 +231,7 @@ OneMix-1S-Plus/
 本项目在开发、逆向与硬件调优过程中，参考并吸纳了开源社区与 UMPC 领域先驱者的卓越成果，在此表达诚挚感谢：
 
 * **GNU GRUB 2D Framebuffer 旋转引擎**：
-  * **Kyle Bader**：提供了经过实战检验的 GRUB 2D Framebuffer 显存旋转补丁，彻底突破了小屏 UMPC 引导阶段物理竖屏的限制。
+  * [Kyle Bader](https://github.com/kylebader) ([Rotating display output from GRUB](https://hackaday.io/project/186596-rotating-display-output-from-grub))：提供了经过实战检验的 GRUB 2D Framebuffer 显存旋转补丁，彻底突破了小屏 UMPC 引导阶段物理竖屏的限制。
   * [GNU GRUB 官方项目](https://www.gnu.org/software/grub/)
 * **重力感应器与姿态校准**：
   * [systemd / udev 硬件数据库 (hwdb)](https://github.com/systemd/systemd)：`ACCEL_MOUNT_MATRIX` 坐标系规范与定义。
@@ -239,13 +239,13 @@ OneMix-1S-Plus/
 * **指纹识别与驱动逆向**：
   * [libfprint / fprintd (Freedesktop)](https://gitlab.freedesktop.org/libfprint/libfprint)：现代 Linux 统一指纹识别框架与 TOD 接口规范。
   * [libgusb](https://github.com/hughsie/libgusb)：GLib 的异步 GObject USB 包装库。
-  * **社区 FT9201 逆向工程贡献者**：为 FocalTech 2808 系列传感器在 Linux 下的逆向适配与协议解析奠定了宝贵基础。
+  * [社区 FT9201 逆向工程贡献者 (ryenyuku/libfprint-ft9201)](https://github.com/ryenyuku/libfprint-ft9201)：为 FocalTech 2808 系列传感器在 Linux 下的逆向适配与协议解析奠定了宝贵基础。
 * **处理器能耗与性能调优**：
   * [georgewhewell/undervolt](https://github.com/georgewhewell/undervolt)：Linux 下 Intel CPU RAPL 功耗墙与电压调节参考。
   * [Linux Kernel DRM KMS Documentation](https://www.kernel.org/doc/html/latest/gpu/drm-kms.html)：内核显示驱动屏幕旋转参数规范 (`video=...:panel_orientation=...`)。
 * **官方资源与固件**：
   * [壹号本官网 (One-Netbook)](https://www.one-netbook.com/) & [官方下载服务](https://download.one-netbook.com/)：提供官方二代完整驱动包。
-  * **中颖电子 (Sino Wealth) & 海栎创 (Hailuck)**：SH68F83 8051 架构 USB 微控制器规范与固件升级工具。
+  * [中颖电子 (Sino Wealth)](https://www.sinowealth.com/) & [海栎创 (Hailuck)](http://www.hailuck.com/)：SH68F83 8051 架构 USB 微控制器规范与固件升级工具。
 
 ---
 
