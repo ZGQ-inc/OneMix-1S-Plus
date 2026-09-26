@@ -224,7 +224,7 @@ OneMix-1S-Plus/
 During the development, reverse-engineering, and hardware optimization of this project, we drew valuable inspiration and technical foundations from the open-source community and UMPC pioneers:
 
 * **GNU GRUB 2D Framebuffer Rotation Engine**:
-  * [Kyle Bader](https://github.com/kylebader) ([Rotating display output from GRUB](https://hackaday.io/project/186596-rotating-display-output-from-grub)): For developing the robust 2D framebuffer rotation patch that makes landscape boot menus possible on portrait-native UMPC panels.
+  * [Rotating display output from GRUB](https://hackaday.io/project/203272-rotating-display-output-from-grub): For developing the robust 2D framebuffer rotation patch that makes landscape boot menus possible on portrait-native UMPC panels.
   * [GNU GRUB Official Project](https://www.gnu.org/software/grub/)
 * **Accelerometer & IIO Sensor Calibration**:
   * [systemd / udev Hardware Database (hwdb)](https://github.com/systemd/systemd): Specification and coordinate mapping standards for `ACCEL_MOUNT_MATRIX`.

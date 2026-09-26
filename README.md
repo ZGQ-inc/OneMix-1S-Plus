@@ -231,7 +231,7 @@ OneMix-1S-Plus/
 本项目在开发、逆向与硬件调优过程中，参考并吸纳了开源社区与 UMPC 领域先驱者的卓越成果，在此表达诚挚感谢：
 
 * **GNU GRUB 2D Framebuffer 旋转引擎**：
-  * [Kyle Bader](https://github.com/kylebader) ([Rotating display output from GRUB](https://hackaday.io/project/186596-rotating-display-output-from-grub))：提供了经过实战检验的 GRUB 2D Framebuffer 显存旋转补丁，彻底突破了小屏 UMPC 引导阶段物理竖屏的限制。
+  * [Rotating display output from GRUB](https://hackaday.io/project/203272-rotating-display-output-from-grub)：提供了经过实战检验的 GRUB 2D Framebuffer 显存旋转补丁，彻底突破了小屏 UMPC 引导阶段物理竖屏的限制。
   * [GNU GRUB 官方项目](https://www.gnu.org/software/grub/)
 * **重力感应器与姿态校准**：
   * [systemd / udev 硬件数据库 (hwdb)](https://github.com/systemd/systemd)：`ACCEL_MOUNT_MATRIX` 坐标系规范与定义。
