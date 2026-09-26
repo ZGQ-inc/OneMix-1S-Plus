@@ -8,6 +8,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 FP_INSTALLER="${REPO_ROOT}/packages/fingerprint/install.sh"
+CYAN='\033[36m'
+RESET='\033[0m'
 
 UI_LANG="zh"
 for arg in "$@"; do
@@ -28,7 +30,9 @@ if [[ $EUID -ne 0 ]]; then
     else
         echo -e "\033[31m[ERROR]\033[0m 本脚本需要 root 权限，请使用 sudo 运行："
     fi
-    echo -e "      sudo bash $0 $@\n"
+    printf '      %ssudo bash %q' "$CYAN" "$0"
+    printf ' %q' "$@"
+    printf '%s\n\n' "$RESET"
     exit 1
 fi
 

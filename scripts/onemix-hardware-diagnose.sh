@@ -7,7 +7,6 @@ set -euo pipefail
 RED='\033[31m'
 GREEN='\033[32m'
 YELLOW='\033[33m'
-BLUE='\033[34m'
 CYAN='\033[36m'
 BOLD='\033[1m'
 RESET='\033[0m'
@@ -271,7 +270,7 @@ fi
 
 # 附加. 电池健康
 if [[ -d /sys/class/power_supply/BAT0 || -d /sys/class/power_supply/BAT1 ]]; then
-    BAT_DIR=$(ls -d /sys/class/power_supply/BAT* | head -n1)
+    BAT_DIR=$(find /sys/class/power_supply -maxdepth 1 -name 'BAT*' | head -n 1)
     CAP=$(cat "${BAT_DIR}/capacity" 2>/dev/null || echo "Unknown")
     STATUS=$(cat "${BAT_DIR}/status" 2>/dev/null || echo "Unknown")
     if [[ "$UI_LANG" == "en" ]]; then

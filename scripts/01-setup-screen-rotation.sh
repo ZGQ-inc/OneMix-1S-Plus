@@ -44,12 +44,14 @@ check_root() {
         else
             log_err "本脚本需要 root 权限，请使用 sudo 运行："
         fi
-        echo -e "      ${CYAN}sudo bash $0 $@${RESET}\n"
+        printf '      %ssudo bash %q' "$CYAN" "$0"
+        printf ' %q' "$@"
+        printf '%s\n\n' "$RESET"
         exit 1
     fi
 }
 
-check_root
+check_root "$@"
 
 # 极其关键的前提操作提示 (Mandatory Prerequisite Notice)
 if [[ "$UI_LANG" == "en" ]]; then

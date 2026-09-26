@@ -40,7 +40,9 @@ if [[ $EUID -ne 0 ]]; then
     else
         log_err "本脚本需要 root 权限，请使用 sudo 运行："
     fi
-    echo -e "      ${CYAN}sudo bash $0 $@${RESET}\n"
+    printf '      %ssudo bash %q' "$CYAN" "$0"
+    printf ' %q' "$@"
+    printf '%s\n\n' "$RESET"
     exit 1
 fi
 
