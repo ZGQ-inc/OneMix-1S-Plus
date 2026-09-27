@@ -148,13 +148,13 @@ sudo bash scripts/04-tune-m3-power-thermal.sh
 
 ---
 
-### 6. Sleep Mode & Lid Power-Cut Fix (s2idle Modern Standby)
+### 6. Lid Power & Screen Management (Fix 3s Power-Cut / Turn Off Screen / Lock)
 
-* **Symptom**: Closing the lid or clicking suspend results in an **abrupt hard power-cut / shutdown ~3 seconds later** (power LED turns off, machine is unresponsive to keypresses, requiring a cold power-button boot).
-* **Root Cause**: The OneMix 1S+ Intel Core m3-8100Y (Amber Lake-Y) motherboard power rails and Embedded Controller (EC) are architected for Microsoft "Modern Standby" (S0ix / `s2idle`). The Linux kernel default of traditional ACPI S3 `[deep]` sleep drops main power planes without the expected S0ix handshake. The EC hardware watchdog detects this power drop, times out after ~3 seconds, and triggers an emergency hard power-off.
-* **Solution**:
-  1. Permanently switch Linux sleep mode to hardware-native **`s2idle` (Suspend-to-Idle)** via `/etc/systemd/sleep.conf.d/` and GRUB parameter `mem_sleep_default=s2idle`, eliminating the power-cut bug;
-  2. Customize lid-close policy for 7-inch UMPC form factor: choose between [Ignore / Lock Screen] (ideal for background downloads, SSH/RustDesk remote access, audio playback, or 360° tablet flip mode) or [Safe Suspend] (enters smooth s2idle sleep).
+* **Symptom**: Closing the lid or attempting ACPI suspend causes an **abrupt hard power-cut / shutdown ~3 seconds later** (power LED turns off, machine is unresponsive to keypresses, requiring a cold power-button boot).
+* **Root Cause**: The OneMix 1S+ Intel Core m3-8100Y (Amber Lake-Y) motherboard Embedded Controller (EC) firmware cannot complete the ACPI suspend handshake under Linux. Regardless of S3 `deep` or `s2idle`, an EC watchdog timer times out after ~3 seconds and triggers an emergency hardware power cut.
+* **Solution**: Completely mask lethal system hardware sleep targets (`systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target`), and provide two optimized DPMS screen management policies:
+  1. **Mode 1: Turn Off Screen Only (Recommended for UMPC / Background Tasks)**: Turns off display backlight (DPMS off) on lid close without locking session. Opening lid instantly wakes the screen with 0s latency. Music, downloads, and remote access run uninterrupted with zero power loss;
+  2. **Mode 2: Turn Off Screen + Lock Session (Recommended for Mobile Security)**: Automatically locks session and powers off display backlight. Opening lid displays lock screen (unlock via fingerprint or password). Completely eliminates accidental keypresses in carrying bags.
 
 #### Run One-Click Configuration:
 ```bash

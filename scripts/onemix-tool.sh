@@ -74,7 +74,7 @@ show_menu() {
         echo -e "  ${BOLD}[5] Run Full Hardware Diagnostics${RESET} (Screen, Board, MCU, Fingerprint, Sensors)"
         echo -e "  ${BOLD}[6] View Keyboard Firmware & Windows Driver Guide${RESET} (OFN Fix & Official Links)"
         echo -e "  ${BOLD}[7] Hardware Rotated GRUB Bootloader Installer${RESET} (Standalone EFI / 2D Framebuffer)"
-        echo -e "  ${BOLD}[8] Sleep Mode & Lid Policy Manager${RESET} (Fix 3-Sec Power-Cut / s2idle / Keep Running)"
+        echo -e "  ${BOLD}[8] Lid Power & Screen Off Policy${RESET} (Fix 3s Power-Cut / Turn Off Screen / Lock)"
         echo -e "  ${BOLD}[L] Switch Language / 切换语言${RESET} [Current: ${GREEN}English${RESET}]"
         echo -e "  ${BOLD}[0] Exit${RESET}"
     else
@@ -87,7 +87,7 @@ show_menu() {
         echo -e "  ${BOLD}[5] 运行硬件全景体检与诊断${RESET} (屏幕、主板、键盘MCU、指纹、传感器)"
         echo -e "  ${BOLD}[6] 查看键盘固件与 Windows 驱动指南${RESET} (OFN 修复说明与官方直链)"
         echo -e "  ${BOLD}[7] 安装/管理横屏 GRUB 引导器${RESET} (独立 EFI / 2D Framebuffer 硬件级旋转)"
-        echo -e "  ${BOLD}[8] 睡眠模式与合盖电源策略${RESET} (彻底修复合盖 3 秒断电 / s2idle / 掌机后台常驻)"
+        echo -e "  ${BOLD}[8] 屏幕合盖与电源策略管理${RESET} (修复合盖3秒断电 / 仅关屏幕 / 关屏+锁屏)"
         echo -e "  ${BOLD}[L] 切换语言 / Switch Language${RESET} [当前: ${GREEN}简体中文${RESET}]"
         echo -e "  ${BOLD}[0] 退出${RESET}"
     fi
