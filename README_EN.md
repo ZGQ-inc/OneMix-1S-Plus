@@ -18,6 +18,7 @@ An open-source repository containing verified reverse-engineered firmware, moder
   - [3. Keyboard & OFN Optical Mouse Firmware (SH68F83)](#3-keyboard--ofn-mouse-firmware)
   - [4. FocalTech FT9536W (2808:9338) Fingerprint Driver for Modern Linux](#4-focaltech-ft9536w-fingerprint-driver)
   - [5. Intel Core m3-8100Y Power & Thermal Profiles](#5-intel-m3-8100y-power--thermal-tuning)
+  - [6. Sleep Mode & Lid Power-Cut Fix (s2idle Modern Standby)](#6-sleep-mode--lid-power-cut-fix-s2idle-modern-standby)
 - [Interactive Master CLI (`onemix-tool.sh`)](#interactive-master-cli)
 - [Repository Structure](#repository-structure)
 - [Disclaimer & License](#disclaimer--license)
@@ -143,6 +144,21 @@ Switch between customizable TDP / energy-performance-preference (EPP) profiles:
 #### Apply Tuning:
 ```bash
 sudo bash scripts/04-tune-m3-power-thermal.sh
+```
+
+---
+
+### 6. Sleep Mode & Lid Power-Cut Fix (s2idle Modern Standby)
+
+* **Symptom**: Closing the lid or clicking suspend results in an **abrupt hard power-cut / shutdown ~3 seconds later** (power LED turns off, machine is unresponsive to keypresses, requiring a cold power-button boot).
+* **Root Cause**: The OneMix 1S+ Intel Core m3-8100Y (Amber Lake-Y) motherboard power rails and Embedded Controller (EC) are architected for Microsoft "Modern Standby" (S0ix / `s2idle`). The Linux kernel default of traditional ACPI S3 `[deep]` sleep drops main power planes without the expected S0ix handshake. The EC hardware watchdog detects this power drop, times out after ~3 seconds, and triggers an emergency hard power-off.
+* **Solution**:
+  1. Permanently switch Linux sleep mode to hardware-native **`s2idle` (Suspend-to-Idle)** via `/etc/systemd/sleep.conf.d/` and GRUB parameter `mem_sleep_default=s2idle`, eliminating the power-cut bug;
+  2. Customize lid-close policy for 7-inch UMPC form factor: choose between [Ignore / Lock Screen] (ideal for background downloads, SSH/RustDesk remote access, audio playback, or 360° tablet flip mode) or [Safe Suspend] (enters smooth s2idle sleep).
+
+#### Run One-Click Configuration:
+```bash
+sudo bash scripts/05-setup-power-and-sleep.sh
 ```
 
 ---

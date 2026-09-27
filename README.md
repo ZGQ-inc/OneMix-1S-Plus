@@ -20,6 +20,7 @@
   - [3. 键盘与 OFN 触控板专属修复固件 (SH68F83)](#3-键盘与-ofn-光学触控板修复固件)
   - [4. FocalTech FT9536W (2808:9338) Linux 现代指纹驱动](#4-focaltech-ft9536w-指纹驱动)
   - [5. Intel Core m3-8100Y 功耗与温控优化](#5-intel-core-m3-8100y-功耗与温控优化)
+  - [6. 睡眠休眠与合盖断电修复 (s2idle 现代待机)](#6-睡眠休眠与合盖断电修复-s2idle-现代待机)
 - [Linux 一键综合管理工具 (`onemix-tool.sh`)](#-linux-一键综合管理工具)
 - [仓库目录结构](#-仓库目录结构)
 - [免责声明与许可证](#-免责声明与许可证)
@@ -148,6 +149,21 @@ m3-8100Y 在轻薄 7 寸机身内默认功耗释放较为保守。通过调节 I
 #### 执行调优：
 ```bash
 sudo bash scripts/04-tune-m3-power-thermal.sh
+```
+
+---
+
+### 6. 睡眠休眠与合盖断电修复 (s2idle 现代待机)
+
+* **故障现象**：在 Linux 下合盖或点击睡眠挂起后，**约 3 秒后整机直接硬件断电掉电关机**（电源灯熄灭，无法按键唤醒，必须重新按电源键冷启动）。
+* **根本原因**：OneMix 1S+ 所搭载的 Intel Core m3-8100Y (Amber Lake-Y) 主板供电与 EC 固件完全是基于微软现代待机（Modern Standby / S0ix / `s2idle`）规范设计的。Linux 内核默认尝试进入传统的 ACPI S3 `[deep]` 睡眠，导致主板主供电轨拉低且 EC 失去握手心跳。主板 EC 的硬件看门狗在约 3 秒超时后直接触发硬件急停断电保护（Hard Power Cut）。
+* **解决方案**：
+  1. 将挂起模式永久切换为硬件原生支持的 **`s2idle` (Suspend-to-Idle)**，写入 `/etc/systemd/sleep.conf.d/` 与 GRUB 内核参数 `mem_sleep_default=s2idle`，彻底杜绝掉电；
+  2. 支持为 7 寸 UMPC 掌机量身定制合盖行为：可选择【忽略合盖/仅熄屏锁屏】（适合掌机放包内后台下载、编译、听歌常驻或 360° 翻转防误触），或选择【安全挂起】（平稳进入低功耗待机）。
+
+#### 执行一键配置：
+```bash
+sudo bash scripts/05-setup-power-and-sleep.sh
 ```
 
 ---

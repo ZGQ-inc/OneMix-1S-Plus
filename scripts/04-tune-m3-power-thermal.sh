@@ -68,6 +68,10 @@ show_status() {
                 echo -e "  Intel RAPL PL2 (Turbo Peak): ${GREEN}${PL2_W} W${RESET}"
             fi
         fi
+        if [[ -f /sys/power/mem_sleep ]]; then
+            MEM_SLEEP=$(cat /sys/power/mem_sleep 2>/dev/null || echo "unknown")
+            echo -e "  Kernel Sleep Mode:          ${GREEN}${MEM_SLEEP}${RESET}"
+        fi
     else
         echo -e "\n${BOLD}${CYAN}OneMix 1S+ (m3-8100Y) 当前电源与能耗状态${RESET}"
         if [[ -d /sys/devices/system/cpu/cpu0/cpufreq ]]; then
@@ -88,6 +92,10 @@ show_status() {
                 PL2_W=$(awk '{print $1 / 1000000}' "${RAPL_DIR}/constraint_1_power_limit_uw")
                 echo -e "  Intel RAPL PL2 (瞬时睿频墙):  ${GREEN}${PL2_W} W${RESET}"
             fi
+        fi
+        if [[ -f /sys/power/mem_sleep ]]; then
+            MEM_SLEEP=$(cat /sys/power/mem_sleep 2>/dev/null || echo "unknown")
+            echo -e "  系统睡眠挂起模式:           ${GREEN}${MEM_SLEEP}${RESET}"
         fi
     fi
 }
