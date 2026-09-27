@@ -97,7 +97,9 @@ show_status() {
         fi
 
         # 5. suspend.target mask status
-        if systemctl is-enabled suspend.target 2>/dev/null | grep -q "masked"; then
+        local mask_status
+        mask_status=$(systemctl is-enabled suspend.target 2>&1 || true)
+        if [[ "$mask_status" =~ masked ]]; then
             echo -e "  Hardware Sleep Target:      ${GREEN}Masked (Fatal sleep completely blocked)${RESET}"
         else
             echo -e "  Hardware Sleep Target:      ${YELLOW}Unmasked (Sleep allowed)${RESET}"
@@ -145,7 +147,9 @@ show_status() {
         fi
 
         # 5. suspend.target mask status
-        if systemctl is-enabled suspend.target 2>/dev/null | grep -q "masked"; then
+        local mask_status_zh
+        mask_status_zh=$(systemctl is-enabled suspend.target 2>&1 || true)
+        if [[ "$mask_status_zh" =~ masked ]]; then
             echo -e "  硬件挂起目标屏蔽状态:       ${GREEN}已屏蔽 (Masked，已彻底杜绝致命挂起掉电)${RESET}"
         else
             echo -e "  硬件挂起目标屏蔽状态:       ${YELLOW}未屏蔽 (挂起目标处于激活就绪状态)${RESET}"
