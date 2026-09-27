@@ -168,8 +168,11 @@ EOF
     local grub_file="/etc/default/grub"
     if [[ -f "$grub_file" ]]; then
         if ! grep -q "mem_sleep_default=s2idle" "$grub_file"; then
-            sed -i 's/\(GRUB_CMDLINE_LINUX_DEFAULT="[^"]*\)/\1 mem_sleep_default=s2idle/' "$grub_file" 2>/dev/null || \
-            sed -i "s/\(GRUB_CMDLINE_LINUX_DEFAULT='[^']*\)/\1 mem_sleep_default=s2idle/" "$grub_file" 2>/dev/null || true
+            if grep -q 'GRUB_CMDLINE_LINUX_DEFAULT=".*"' "$grub_file"; then
+                sed -i 's/\(GRUB_CMDLINE_LINUX_DEFAULT="[^"]*\)/\1 mem_sleep_default=s2idle/' "$grub_file"
+            elif grep -q "GRUB_CMDLINE_LINUX_DEFAULT='.*'" "$grub_file"; then
+                sed -i "s/\(GRUB_CMDLINE_LINUX_DEFAULT='[^']*\)/\1 mem_sleep_default=s2idle/" "$grub_file"
+            fi
             if [[ "$UI_LANG" == "en" ]]; then
                 log_info "Updating GRUB bootloader configuration..."
             else
