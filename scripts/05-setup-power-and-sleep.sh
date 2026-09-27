@@ -95,6 +95,13 @@ show_status() {
         else
             echo -e "  Lid Close Action (logind):  ${YELLOW}Default (suspend)${RESET}"
         fi
+
+        # 5. suspend.target mask status
+        if systemctl is-enabled suspend.target 2>/dev/null | grep -q "masked"; then
+            echo -e "  Hardware Sleep Target:      ${GREEN}Masked (Fatal sleep completely blocked)${RESET}"
+        else
+            echo -e "  Hardware Sleep Target:      ${YELLOW}Unmasked (Sleep allowed)${RESET}"
+        fi
     else
         echo -e "\n${BOLD}${CYAN}OneMix 1S+ 电源与休眠配置状态${RESET}"
         
@@ -135,6 +142,13 @@ show_status() {
             echo -e "  合盖响应动作 (logind):      ${GREEN}${action}${RESET}"
         else
             echo -e "  合盖响应动作 (logind):      ${YELLOW}默认（suspend 挂起休眠）${RESET}"
+        fi
+
+        # 5. suspend.target mask status
+        if systemctl is-enabled suspend.target 2>/dev/null | grep -q "masked"; then
+            echo -e "  硬件挂起目标屏蔽状态:       ${GREEN}已屏蔽 (Masked，已彻底杜绝致命挂起掉电)${RESET}"
+        else
+            echo -e "  硬件挂起目标屏蔽状态:       ${YELLOW}未屏蔽 (挂起目标处于激活就绪状态)${RESET}"
         fi
     fi
     echo ""
@@ -203,6 +217,7 @@ EOF
 apply_lid_policy() {
     local policy="$1"
     mkdir -p /etc/systemd/logind.conf.d
+    local real_user="${SUDO_USER:-$USER}"
 
     case "$policy" in
         ignore)
@@ -211,11 +226,22 @@ apply_lid_policy() {
 HandleLidSwitch=ignore
 HandleLidSwitchExternalPower=ignore
 HandleLidSwitchDocked=ignore
+LidSwitchIgnoreInhibited=no
 EOF
+            # 完全屏蔽硬件挂起目标，杜绝底层意外调用挂起导致掉电
+            systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target >/dev/null 2>&1 || true
+
+            # 同步配置 KDE Plasma 6 桌面电源管理 (PowerDevil)
+            if command -v kwriteconfig6 &>/dev/null && [[ -n "$real_user" && "$real_user" != "root" ]]; then
+                su - "$real_user" -c "kwriteconfig6 --file powerdevilrc --group 'AC' --group 'SuspendAndShutdown' --key 'LidAction' 0" 2>/dev/null || true
+                su - "$real_user" -c "kwriteconfig6 --file powerdevilrc --group 'Battery' --group 'SuspendAndShutdown' --key 'LidAction' 0" 2>/dev/null || true
+                su - "$real_user" -c "systemctl --user restart plasma-powerdevil.service" 2>/dev/null || true
+            fi
+
             if [[ "$UI_LANG" == "en" ]]; then
-                log_ok "Lid policy set to: IGNORE (screen stays on / no sleep on lid close)"
+                log_ok "Lid policy set to: IGNORE (screen stays on / no sleep on lid close, background tasks kept)"
             else
-                log_ok "已设置合盖策略为：忽略 (IGNORE，合盖不断电、不休眠，程序与网络保持后台运行)"
+                log_ok "已设置合盖策略为：忽略 (IGNORE，合盖不断电、不休眠，程序与网络保持后台运行，屏蔽致命睡眠)"
             fi
             ;;
         lock)
@@ -224,7 +250,16 @@ EOF
 HandleLidSwitch=lock
 HandleLidSwitchExternalPower=lock
 HandleLidSwitchDocked=ignore
+LidSwitchIgnoreInhibited=no
 EOF
+            systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target >/dev/null 2>&1 || true
+
+            if command -v kwriteconfig6 &>/dev/null && [[ -n "$real_user" && "$real_user" != "root" ]]; then
+                su - "$real_user" -c "kwriteconfig6 --file powerdevilrc --group 'AC' --group 'SuspendAndShutdown' --key 'LidAction' 0" 2>/dev/null || true
+                su - "$real_user" -c "kwriteconfig6 --file powerdevilrc --group 'Battery' --group 'SuspendAndShutdown' --key 'LidAction' 0" 2>/dev/null || true
+                su - "$real_user" -c "systemctl --user restart plasma-powerdevil.service" 2>/dev/null || true
+            fi
+
             if [[ "$UI_LANG" == "en" ]]; then
                 log_ok "Lid policy set to: LOCK (locks screen, maintains running background tasks)"
             else
@@ -238,10 +273,18 @@ HandleLidSwitch=suspend
 HandleLidSwitchExternalPower=suspend
 HandleLidSwitchDocked=ignore
 EOF
+            systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target >/dev/null 2>&1 || true
+
+            if command -v kwriteconfig6 &>/dev/null && [[ -n "$real_user" && "$real_user" != "root" ]]; then
+                su - "$real_user" -c "kwriteconfig6 --file powerdevilrc --group 'AC' --group 'SuspendAndShutdown' --key 'LidAction' 1" 2>/dev/null || true
+                su - "$real_user" -c "kwriteconfig6 --file powerdevilrc --group 'Battery' --group 'SuspendAndShutdown' --key 'LidAction' 1" 2>/dev/null || true
+                su - "$real_user" -c "systemctl --user restart plasma-powerdevil.service" 2>/dev/null || true
+            fi
+
             if [[ "$UI_LANG" == "en" ]]; then
                 log_ok "Lid policy set to: SUSPEND (enters s2idle low-power standby on lid close)"
             else
-                log_ok "已设置合盖策略为：挂起 (SUSPEND，合盖进入安全 s2idle 低功耗睡眠)"
+                log_ok "已设置合盖策略为：挂起 (SUSPEND，合盖进入 s2idle 低功耗睡眠)"
             fi
             ;;
         *)
